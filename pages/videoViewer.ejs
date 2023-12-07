@@ -10,19 +10,32 @@
     .c1 {
         text-align: center;
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
-    .c1 .btn {
-        position: absolute;
-        background-color: #555;
-        color: white;
-        font-size: 16px;
-        padding: 12px 24px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        margin-right: 500px;
+    #prev-button, #next-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 20px;
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      outline: none;
+      margin-left: 200px;
+      margin-right: 200px;
+    }
 
+    #prev-button {
+      left: 0;
+    }
+
+    #next-button {
+      right: 0;
     }
 </style>
 
@@ -33,15 +46,15 @@
 
 
     <div class="c1">
-        <iframe width="420" height="345" src="https://www.youtube.com/embed/fl-wz50yAHo">
+        <iframe class="video-frame" width="420" height="345" src="https://www.youtube.com/embed/fl-wz50yAHo">
         </iframe>
         <br>
-        <iframe width="420" height="345" src="https://www.youtube.com/embed/042QcCeu2a8">
+        <iframe class="video-frame" width="420" height="345" src="https://www.youtube.com/embed/042QcCeu2a8">
         </iframe>
-        <button onclick="window.location.href='/PREV';">
+        <button id="prev-button" onclick="window.location.href='/PREV';">
             PREVIOUS
         </button>
-        <button onclick="window.location.href='/NEXT';">
+        <button id="next-button" onclick="window.location.href='/NEXT';">
             NEXT
         </button>
     </div>
