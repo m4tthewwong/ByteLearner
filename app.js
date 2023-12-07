@@ -2,16 +2,15 @@ const path = require("path");
 const express = require("express");
 const app = express();
 
-require("dotenv").config()
+require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
+const apiKey = process.env.API_KEY;
+
+// middleware to get styles sheet 
+app.use('/styles', express.static('styles'));
+
 
 app.set("views", path.resolve(__dirname, "pages"));
 app.set("view engine", "ejs");
-
-
-if (process.argv.length != 3) {
-    process.stdout.write(`Invalid Arguments\n`);
-    process.exit(1);
-}
 
 const port_num = process.argv[2];
 app.listen(port_num);
@@ -35,7 +34,7 @@ process.stdin.on('readable', () => {
 
 });
 app.get("/", (req, res) => {
-    res.render("home");
+    res.render("getting", {apiKey: apiKey});
 });
 app.get("/videoviewer", (req, res) => {
     res.render("videoviewer");

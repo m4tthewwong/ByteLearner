@@ -1,22 +1,23 @@
 {
-  "name": "summercamp",
+  "name": "bytelearner",
   "version": "1.0.0",
-  "description": "Summer Camp Modules",
-  "main": "summerCampServer.js",
+  "description": "",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "Summer",
-    "Camp"
-  ],
-  "author": "Jason Chen",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kwwwv/ByteLearner.git"
+  },
+  "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kwwwv/ByteLearner/issues"
+  },
+  "homepage": "https://github.com/kwwwv/ByteLearner#readme",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "http": "^0.0.1-security",
-    "mongodb": "^5.4.0"
+    "path": "^0.12.7"
   }
 }
