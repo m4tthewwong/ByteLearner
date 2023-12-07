@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Viewer</title>
+</head>
+<style>
+    .c1 {
+        text-align: center;
+        position: relative;
+    }
+
+    .c1 .btn {
+        position: absolute;
+        background-color: #555;
+        color: white;
+        font-size: 16px;
+        padding: 12px 24px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-right: 500px;
+
+    }
+</style>
+
+<body>
+    <button onclick="window.location.href='/';">
+        HOME
+    </button>
+
+
+    <div class="c1">
+        <iframe width="420" height="345" src="https://www.youtube.com/embed/fl-wz50yAHo">
+        </iframe>
+        <br>
+        <iframe width="420" height="345" src="https://www.youtube.com/embed/042QcCeu2a8">
+        </iframe>
+        <button onclick="window.location.href='/PREV';">
+            PREVIOUS
+        </button>
+        <button onclick="window.location.href='/NEXT';">
+            NEXT
+        </button>
+    </div>
+</body>
+
+</html>
