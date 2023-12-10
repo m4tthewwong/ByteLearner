@@ -1,26 +1,33 @@
 <!DOCTYPE html>
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+<style>
+    .c1 {
+        text-align: center;
+        margin-top: 25%;
+    }
 
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="/styles/styles.css">
-        <script src="gettingYoutube.js"></script>
-        <title>Home</title>
-    </head>
+    .c2 {
+        text-wrap: nowrap;
+    }
+</style>
 
-    <body>
-        <form action="/videoViewer" method="get">
-            <div class="c1">
-                <h1>Name</h1>
-                <div class="c2"><input type="text" id="link" name="link">
-                    <input type="submit" value="Submit" />
-                </div>
-
+<body>
+    <form action="/videoViewer" method="post">
+        <div class="c1">
+            <h1>Name</h1>
+            <div class="c2"><input type="text" id="link" name="link">
+                <input type="submit" value="Submit" />
             </div>
-        </form>
-        
-    </body>
+
+        </div>
+    </form>
+</body>
+</body>
+
 </html>

@@ -46,7 +46,10 @@
 
 
     <div class="c1">
-        <iframe class="video-frame" width="420" height="345" src="https://www.youtube.com/embed/fl-wz50yAHo">
+        <% if (error) { %>
+            <p style="color: red;"><%= error %></p>
+        <% } %>
+        <iframe class="video-frame" width="420" height="345" src="<%= link %>">
         </iframe>
         <br>
         <iframe class="video-frame" width="420" height="345" src="https://www.youtube.com/embed/042QcCeu2a8">
