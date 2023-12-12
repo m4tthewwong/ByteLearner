@@ -18,6 +18,7 @@
   "homepage": "https://github.com/kwwwv/ByteLearner#readme",
   "dependencies": {
     "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1",
     "path": "^0.12.7"
   }
 }

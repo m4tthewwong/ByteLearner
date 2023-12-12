@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const bodyParser = require("body-parser");
+const multer = require("multer");
 
 require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') }) 
 const apiKey = process.env.API_KEY;
@@ -11,6 +12,7 @@ app.use('/styles', express.static('styles'));
 app.set("views", path.resolve(__dirname, "pages"));
 app.set("view engine", "ejs");
 
+
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const database = process.env.MONGO_DB_NAME;
@@ -18,6 +20,22 @@ const collection = process.env.MONGO_COLLECTION;
 const database_and_collection = { db: database, collection: collection };
 const uri = `mongodb+srv://${userName}:${password}@cluster0.t8eetqo.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
+});
+
+
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 20 * 1024 * 1024 }, 
+});
 
 app.set("views", path.resolve(__dirname, "pages"));
 app.set("view engine", "ejs");
@@ -76,34 +94,25 @@ app.post("/home", async (req, res) => {
 });
 
 
-app.get("/videoviewer", (req, res) => {
-    res.render("videoviewer");
+app.post("/video", upload.single("videoFile"), async (req, res) => {
+    console.log(req);
+    try {
+        if (!req.file) {
+            throw new Error('No file uploaded.');
+        }
 
-});
+        const video = req.file.path;
+        const videoPlayer = `<video width="640" height="360" controls>
+            <source src="${video}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>`;
 
-function extractVideoCode(link) {
-    let parts = link.split('=');
-    return parts[parts.length - 1];
-}
-
-function isValidYouTubeUrl(url) {
-    const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com\/(embed\/|v\/|watch\?v=)|youtu\.be\/)/;
-
-    return youtubeRegex.test(url);
-}
-
-app.post("/videoviewer", async (req, res) => {
-    let link = req.body.link;
-    let error = "";
-    if (!isValidYouTubeUrl(link)) {
-        return res.render("videoviewer", { error: "Invalid YouTube URL format. Please enter a valid YouTube URL.", link: link });
+        res.render("videoPlayer", { video: videoPlayer });
+    } catch (error) {
+        console.error('Error in /video route:', error);
+        res.status(500).send('Internal Server Error');
     }
-    let videoCode = extractVideoCode(link);
-
-    let embedUrl = `https://www.youtube.com/embed/${videoCode}`;
-
-    res.render("videoviewer", {
-        link: embedUrl,
-        error: error
-    });
 });
+
+
+
