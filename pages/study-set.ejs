@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Set</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+    <style>
+        #studyItem {
+            margin: 20px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 5px 10px;
+            margin-right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1><%= studySet.title %></h1>
+    <div id="studyItem" data-items='<%- JSON.stringify(studySet.items) %>'></div>
+    <button onclick="showPreviousItem()">Previous</button>
+    <button onclick="showNextItem()">Next</button>
+
+    <script>
+        const studyItemDiv = document.getElementById('studyItem');
+        const studyItems = JSON.parse(studyItemDiv.getAttribute('data-items'));
+
+        let currentItemIndex = 0;
+
+        function showNextItem() {
+            if(currentItemIndex < studyItems.length - 1) {
+                currentItemIndex++;
+                updateDisplay();
+            }
+        }
+
+        function showPreviousItem() {
+            if(currentItemIndex > 0) {
+                currentItemIndex--;
+                updateDisplay();
+            }
+        }
+
+        function updateDisplay() {
+            studyItemDiv.innerText = studyItems[currentItemIndex].question;
+        }
+
+        window.onload = function() {
+            updateDisplay();
+        };
+    </script>
+</body>
+</html>

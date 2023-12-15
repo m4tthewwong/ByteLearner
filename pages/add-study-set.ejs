@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add a New Study Set</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+    <h1>Add a New Study Set</h1>
+    
+    <form action="/add-study-set" method="post">
+        <label for="title">Title:</label><br>
+        <input type="text" id="title" name="title" required><br>
+        <label for="items">Items (JSON format):</label><br>
+        <textarea id="items" name="items" rows="4" cols="50" required></textarea><br>
+        <input type="submit" value="Submit">
+    </form>
+    
+    <form action="/clear-study-sets" method="post">
+        <input type="submit" value="Clear All Study Sets">
+    </form>
+    <a href="/"><button>Back to Home</button></a>
+</body>
+</html>

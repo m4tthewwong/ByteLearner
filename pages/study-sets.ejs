@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Study Sets</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+</head>
+<body>
+    
+    <h1>Study Sets</h1>
+    <ul>
+        <% studySets.forEach(set => { %>
+            <li><a href="/study-set/<%= set._id %>"><%= set.title %></a></li>
+        <% }) %>
+    </ul>
+
+</body>
+</html>
