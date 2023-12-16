@@ -118,15 +118,17 @@ app.post("/view-set", async (req, res)=> {
     const flashcardsCursor = await flashcardsCollection.find({});
     const flashcards = await flashcardsCursor.toArray();
 
-    let content = `<dl>`;
+    let content = `<ul>`;
     for (const item in flashcards){
         let word = flashcards[item].Word;
         let desc = flashcards[item].Definition;
 
-        content += `<dt> ${word} </dt> <dd> ${desc} </dd>`
+        content += `<li><strong> ${word} </strong> <ul> <li> ${desc} </li> </ul></li><br>`
+
+        
 
     }
-    content += '</dl>'
+    content += '</ul>'
     
 
     console.log(flashcards);
