@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
   const flashcardContent = document.getElementById("flashcard-content");
   const prevButton = document.getElementById("prevButton");
   const nextButton = document.getElementById("nextButton");
+  const learnedButton = document.getElementById("learnedButton");
+  let learned = true;
 
   prevButton.addEventListener('click', function () {
     showFlashCard('prev');
@@ -19,6 +21,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   nextButton.addEventListener('click', function () {
     showFlashCard('next');
+  });
+
+  learnedButton.addEventListener('click', function () {
+
+    if (learned){
+      learnedButton.style.backgroundColor = "#4caf50";
+      learnedButton.innerText = "learned!";
+      learned = false;
+    } else {
+      learnedButton.style.backgroundColor = "red";
+      learnedButton.innerText = "not learned";
+      learned = true;
+    }
   });
 
   function showFlashCard(direction) {

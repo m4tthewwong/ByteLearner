@@ -4,19 +4,22 @@
     border: 1px solid #ccc;
     padding: 20px;
     text-align: center;
+    
   }
 
-body {
-    margin: 0;
+.center {
+    margin-top: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+
+
 }
 
 #prevButton {
+    background-color: white;
     margin: 10px;
-    color: white;
+    
     border: solid black;
     border-width: 0 6px 6px 0;
     display: inline-block;
@@ -27,11 +30,29 @@ body {
 
 #nextButton {
     margin: 10px;
-    color: white;
+    background-color: white;
     border: solid black;
     border-width: 0 6px 6px 0;
     display: inline-block;
     padding: 20px;
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
+}
+.learned-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.learned-button {
+    margin-top: 10px; /* Add some margin to separate the button from the flashcard */
+    padding: 10px;
+    background-color:red; /* Green color, you can change it to your preference */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.learned-button:hover {
+    background-color: rgb(167, 11, 11); /* Darker green color on hover */
 }

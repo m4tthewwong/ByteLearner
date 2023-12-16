@@ -7,11 +7,19 @@
   <link rel="stylesheet" type="text/css" href="/styles/styles.css">
 </head>
 <body>
-    <button class="buttons" id="prevButton" onclick="showFlashCard('prev')"></button>
-    <div class="flashcard">
+    <div class = center> 
+      <button class="buttons" id="prevButton" onclick="showFlashCard('prev')"></button>
+      <div class="flashcard">
         <p id="flashcard-content">This is a sample flash card.</p>
+        
+      </div>
+      <button class="buttons" id="nextButton" onclick="showFlashCard('next')"></button> 
+      
     </div>
-    <button class="buttons" id="nextButton" onclick="showFlashCard('next')"></button>
+    <div class = learned-button-container>
+      <button class="learned-button" id="learnedButton" onclick="markAsLearned()">not Learned</button>
+    </div>
+   
   <script src="/script/flashcards.js"></script>
 </body>
 </html>
