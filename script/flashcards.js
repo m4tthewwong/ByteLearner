@@ -1,43 +1,12 @@
-const { MongoClient } = require('mongodb');
-const path = require('path');
-require("dotenv").config({ path: path.resolve(__dirname, 'credentials/.env') });
-
-const userName = process.env.MONGO_DB_USERNAME;
-const password = process.env.MONGO_DB_PASSWORD;
-const database = process.env.MONGO_DB_NAME;
-const uri = `mongodb+srv://${userName}:${password}@cluster0.dcxpb1s.mongodb.net/?retryWrites=true&w=majority`;
-
-async function connectToMongo() {
-    try {
-        const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-        await client.connect();
-        return client.db(database);
-    } catch (error) {
-        console.error('Could not connect to MongoDB', error);
-        process.exit(1);
-    }
-}
-
-async function getCollection(collectionName) {
-    const db = await connectToMongo();
-
-    try {
-        const collection = db.collection(collectionName);
-        const documents = await collection.find({}).toArray();
-        console.log(`Documents from ${collectionName}:`, documents);
-        return documents;
-    } finally {
-        await db.close();
-    }
-}
 
 document.addEventListener('DOMContentLoaded', async function () {
-    const collectionName = document.querySelector("#collectionName").innerHTML;
-    let cards = await getCollection(collectionName);
 
-    console.log(cards);
-    flashcards = cards;
+console.log(window.myVariable);
+    let flashcards = ["1","2", "3"];
 
+    const myVariable = require('./sender.js');
+    console.log(myVariable); // Outputs: Hello from sender.js!
+    console.log(flashcards);
     let currentCardIndex = 0;
     const flashcardContent = document.getElementById("flashcard-content");
     flashcardContent.textContent = flashcards[currentCardIndex];
@@ -58,11 +27,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         if (learned) {
             learnedButton.style.backgroundColor = "red";
             learnedButton.innerText = "not learned";
-            learned = false;
+            learned = true;
+
         } else {
             learnedButton.style.backgroundColor = "#4caf50";
             learnedButton.innerText = "learned!";
-            learned = true;
+            learned = false;
         }
     });
 

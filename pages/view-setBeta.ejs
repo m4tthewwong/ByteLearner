@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="collectionName "> <%- collectionName %></title>
+  <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+</head>
+<body>
+    <div class = center> 
+      <button class="buttons" id="prevButton" onclick="showFlashCard('prev')"></button>
+      <div class="flashcard">
+        <p id="flashcard-content">sample flash card.</p>
+        
+      </div>
+      <button class="buttons" id="nextButton" onclick="showFlashCard('next')"></button> 
+      
+    </div>
+    <div class = learned-button-container>
+      <button class="learned-button" id="learnedButton" onclick="markAsLearned()">not Learned</button>
+      
+    </div>
+    <div class = "includeButton-container">
+      Include Learned<input type="checkbox">
+    </div>
+    
+    
+
+   
+  <script src="/script/flashcards.js"></script>
+</body>
+</html>

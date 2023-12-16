@@ -66,6 +66,11 @@ app.get("/", (req, res) => {
     res.render("landing");
 });
 
+// sender.js
+const myVariable = "Hello from sender.js!";
+module.exports = myVariable;
+
+
 app.get("/study-sets", async (req, res) => {
     try {
 
@@ -76,6 +81,8 @@ app.get("/study-sets", async (req, res) => {
         const collections = await db.listCollections().toArray();
         // get the list of collection's names
         const collectionNames = collections.map(collection => collection.name);
+
+
 
         let allSets = "";
 
@@ -100,16 +107,38 @@ app.get("/add-study-set", (req, res) => {
     res.render("add-study-set");
 });
 
-app.post("/view-set", (req, res)=> {
-    const selectedSet = req.body;
+app.post("/view-set", async (req, res)=> {
+    const db = await connectToMongo();
+    const collectionName = await req.body;
+    const propertyNames = Object.keys(collectionName);
+    const collectionN = propertyNames[0];
 
+    console.log(collectionN);
+    const flashcardsCollection = await db.collection(collectionN);
+    const flashcardsCursor = await flashcardsCollection.find({});
+    const flashcards = await flashcardsCursor.toArray();
 
-    const collectionName = Object.keys(selectedSet)[0];
-    res.render("view-set", {collectionName: collectionName});
+    let content = `<dl>`;
+    for (const item in flashcards){
+        let word = flashcards[item].Word;
+        let desc = flashcards[item].Definition;
+
+        content += `<dt> ${word} </dt> <dd> ${desc} </dd>`
+
+    }
+    content += '</dl>'
+    
+
+    console.log(flashcards);
+
+    res.render("view-set", {collectionName: collectionN, contents: content});
 });
+
+
 
 app.post("/clear-study-sets", async (req, res) => {
     try {
+
         const db = await connectToMongo();
         await db.collection(collection).deleteMany({});
     } catch (error) {
