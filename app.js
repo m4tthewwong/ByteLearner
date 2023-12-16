@@ -18,7 +18,6 @@ const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const database = process.env.MONGO_DB_NAME;
 const uri = `mongodb+srv://${userName}:${password}@cluster0.dcxpb1s.mongodb.net/?retryWrites=true&w=majority`;
-//const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -84,7 +83,7 @@ app.get("/study-sets", async (req, res) => {
         // all the cards associated with it to a list with all the sets
         for (const collectionName of collectionNames) {
 
-            allSets += `<button class=studySet onclick="setClicked(${collectionName})">${collectionName}</button>`
+            allSets += `<button type=submit class=studySet name="${collectionName}">${collectionName}</button>`
 
         }
 
@@ -101,9 +100,13 @@ app.get("/add-study-set", (req, res) => {
     res.render("add-study-set");
 });
 
-app.get("/view-set", (req, res)=> {
-    res.render("view-set")
-})
+app.post("/view-set", (req, res)=> {
+    const selectedSet = req.body;
+
+
+    const collectionName = Object.keys(selectedSet)[0];
+    res.render("view-set", {collectionName: collectionName});
+});
 
 app.post("/clear-study-sets", async (req, res) => {
     try {
@@ -115,11 +118,7 @@ app.post("/clear-study-sets", async (req, res) => {
     }
 });
 
-async function setClicked(setName) {
-    const cards = await db.collection(collectionName).find({}).toArray();
-    
-    res.render("view-set", {setName: setName, cards:cards})
-}
+
 
 
 
