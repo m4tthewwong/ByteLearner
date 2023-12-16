@@ -1,19 +1,22 @@
-// flashcards.js
+
+
+export const flashcards = []
 
 document.addEventListener('DOMContentLoaded', function () {
-  const flashcards = [
+  let flashcards = [
     "Flash card content 1",
     "Flash card content 2",
     "Flash card content 3",
-    // Add more flash card content as needed
+
   ];
 
   let currentCardIndex = 0;
   const flashcardContent = document.getElementById("flashcard-content");
+  flashcardContent.textContent = flashcards[currentCardIndex];
   const prevButton = document.getElementById("prevButton");
   const nextButton = document.getElementById("nextButton");
   const learnedButton = document.getElementById("learnedButton");
-  let learned = true;
+  let learned = false;
 
   prevButton.addEventListener('click', function () {
     showFlashCard('prev');
@@ -26,13 +29,14 @@ document.addEventListener('DOMContentLoaded', function () {
   learnedButton.addEventListener('click', function () {
 
     if (learned){
-      learnedButton.style.backgroundColor = "#4caf50";
-      learnedButton.innerText = "learned!";
-      learned = false;
-    } else {
       learnedButton.style.backgroundColor = "red";
       learnedButton.innerText = "not learned";
       learned = true;
+      
+    } else {
+      learnedButton.style.backgroundColor = "#4caf50";
+      learnedButton.innerText = "learned!";
+      learned = false;
     }
   });
 
@@ -46,3 +50,5 @@ document.addEventListener('DOMContentLoaded', function () {
     flashcardContent.textContent = flashcards[currentCardIndex];
   }
 });
+
+

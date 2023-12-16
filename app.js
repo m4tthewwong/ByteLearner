@@ -17,9 +17,7 @@ app.set("view engine", "ejs");
 const userName = process.env.MONGO_DB_USERNAME;
 const password = process.env.MONGO_DB_PASSWORD;
 const database = process.env.MONGO_DB_NAME;
-const collection = process.env.MONGO_COLLECTION;
-const database_and_collection = { db: database, collection: collection };
-const uri = `mongodb+srv://${userName}:${password}@cluster0.t8eetqo.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${userName}:${password}@cluster0.dcxpb1s.mongodb.net/?retryWrites=true&w=majority`;
 //const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -71,9 +69,28 @@ app.get("/", (req, res) => {
 
 app.get("/study-sets", async (req, res) => {
     try {
+
+        //connect to mongoDB
         const db = await connectToMongo();
-        const studySets = await db.collection(collection).find({}).toArray();
-        res.render("study-sets", { studySets: studySets });
+
+        // get a list of collections
+        const collections = await db.listCollections().toArray();
+        // get the list of collection's names
+        const collectionNames = collections.map(collection => collection.name);
+
+        let allSets = "";
+
+        // loop through the list of collection's names and add 
+        // all the cards associated with it to a list with all the sets
+        for (const collectionName of collectionNames) {
+
+            allSets += `<button class=studySet onclick="setClicked(${collectionName})">${collectionName}</button>`
+
+        }
+
+
+
+        res.render("study-sets", { studySets: allSets});
     } catch (error) {
         console.error('Error fetching study sets:', error);
         res.status(500).send('Error fetching study sets');
@@ -97,5 +114,13 @@ app.post("/clear-study-sets", async (req, res) => {
         res.status(500).send('Error clearing study sets');
     }
 });
+
+async function setClicked(setName) {
+    const cards = await db.collection(collectionName).find({}).toArray();
+    
+    res.render("view-set", {setName: setName, cards:cards})
+}
+
+
 
 startServer();
