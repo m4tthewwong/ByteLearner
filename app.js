@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 async function connectToMongo() {
   try {
     const client = await MongoClient.connect(uri);
-    //console.log('Connected to MongoDB');
+
     return client.db(database);
   } catch (error) {
     console.error("Could not connect to MongoDB", error);
@@ -81,13 +81,19 @@ app.get("/study-sets", async (req, res) => {
 
     let allSets = "";
 
+    let dropDownOptions ="";
+
     // loop through the list of collection's names and add
     // all the cards associated with it to a list with all the sets
     for (const collectionName of collectionNames) {
       allSets += `<button type=submit class=studySet name="${collectionName}">${collectionName}</button>`;
+      dropDownOptions += `<option value="${collectionName}">${collectionName}</option>`
     }
 
-    res.render("study-sets", { studySets: allSets });
+
+
+    console.log(allSets);
+    res.render("study-sets", { studySets: allSets, dropDownOptions: dropDownOptions});
   } catch (error) {
     console.error("Error fetching study sets:", error);
     res.status(500).send("Error fetching study sets");
@@ -104,32 +110,24 @@ app.post("/view-set", async (req, res) => {
   const propertyNames = Object.keys(collectionName);
   const collectionN = propertyNames[0];
 
-  console.log(collectionN);
+  
   const flashcardsCollection = await db.collection(collectionN);
   const flashcardsCursor = await flashcardsCollection.find({});
   const flashcards = await flashcardsCursor.toArray();
 
-  let content = `<dl>`;
-  for (const item in flashcards) {
-    let word = flashcards[item].Word;
-    let desc = flashcards[item].Definition;
+
+ 
     let content = `<ul>`;
     for (const item in flashcards){
         let word = flashcards[item].Word;
         let desc = flashcards[item].Definition;
 
-    content += `<dt> ${word} </dt> <dd> ${desc} </dd>`;
-  }
-  content += "</dl>";
         content += `<li><strong> ${word} </strong> <ul> <li> ${desc} </li> </ul></li><br>`
-
-        
-
     }
     content += '</ul>'
     
 
-  console.log(flashcards);
+
 
   res.render("view-set", { collectionName: collectionN, contents: content });
 });
@@ -161,5 +159,70 @@ app.get("/cats", async (req, res) => {
         res.status(500).send("Error fetching cat images");
     }
 });
+
+app.post("/createSet", async (req,res) => {
+    // leave try catch here, im catching bugs >:)
+    try {
+        const newSetName = req.body.newSetName;
+
+        const db = await connectToMongo();
+
+        console.log("new set name " + newSetName)
+        const existingCollections = await db.listCollections().toArray();
+        const existingCollectionNames = existingCollections.map(collection => collection.name);
+
+        if (existingCollectionNames.includes(newSetName)) {
+ 
+            res.status(400).send("A set with the same name already exists.");
+            return;
+        }
+  
+        await db.createCollection(newSetName);
+
+        res.redirect("/study-sets");
+
+    } catch (error) {
+        console.error("Error creating study set:", error);
+        res.status(500).send("Error creating study set");
+    }
+})
+app.post("/addToSet", async (req,res) => {
+    // leave try catch here, im catching bugs >:)
+
+    try {
+        const name = req.body.dropdown;
+        const Word =  req.body.word;
+        const Definition = req.body.definition;
+        const Bool = false;
+
+        const db = await connectToMongo();
+
+        const collection = db.collection(name);
+
+        console.log("word, definiton,bool", Word, Definition, Bool)
+        await collection.insertOne({ Word, Definition, Bool});
+
+        res.redirect("/study-sets");
+
+    } catch (error) {
+        console.error("Error creating a definiton:", error);
+        res.status(500).send("Error creating a definiton");
+    }
+})
+
+app.post("/deleteSet", async (req, res) => {
+    try {
+        const db = await connectToMongo();
+
+        const collectionName = req.body.dropdown;
+        await db.collection(collectionName).drop();
+        res.redirect("/study-sets");
+    } catch (error) {
+        console.error("Error deleting collection", error);
+        res.status(500).send("Error deleting collection");
+    }
+});
+
+
 
 startServer();

@@ -13,6 +13,45 @@
         <%- studySets %>
         </div> 
     </form>
+
+    <div class= "sameLine">
+        <form method="post" action="/createSet">
+
+
+            <label name ="create_Label">Create a new set</label>
+            <input id="newSetName"type="text" name="newSetName" required>
+            <input type="submit"></input>
+
+        </form>
+        
+        <form method="post" action="/addToSet">
+
+   
+            <label for="dropdown">add to exisiting set</label>
+            <select id="dropdown" name="dropdown">
+                <%- dropDownOptions %>
+
+            </select>
+            <input name="word" type="text" placeholder="Enter Word">
+            <input name ="definition"  type="text" placeholder="Enter Definition">
+            <input type="submit"></input>
+
+        </form> 
+
+        <form method="post" action = "/deleteSet">
+            <label for="dropdownDelete">add to exisiting set</label>
+            <select id="dropdown" name="dropdown">
+                <%- dropDownOptions %>
+            </select>
+            <input type="submit" onclick="confirmDelete()"></input>
+        </form>
+        <script>
+
+            function confirmDelete(){
+                alert("Are you sure you want to delete this set?")
+            }
+        </script>
+    </div>
     
 </body>
 </html>
