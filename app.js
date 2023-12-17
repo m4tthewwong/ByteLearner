@@ -271,6 +271,7 @@ app.get("/view-set", async (req, res) => {
           content += `<li><strong> ${word} </strong> <ul> <li> ${desc} </li> </ul></li><br>`
       }
       content += '</ul>'
+
   
   
     res.render("view-set", { collectionName: collectionN, contents: content });
