@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cats</title>
+    <link rel="stylesheet" type="text/css" href="/styles/main.css">
+    <style>
+        .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            padding: 10px;
+        }
+        .cat-grid img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: rgb(145, 145, 145);
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: rgb(94, 94, 94);
+        }
+    </style>
+</head>
+<body>
+    <h1>Cat Gallery</h1>
+    <div class="cat-grid">
+        <% catImages.forEach(url => { %>
+            <img src="<%= url %>" alt="Cat">
+        <% }) %>
+    </div>
+    <button onclick="window.location.reload();">Reload for More Cats</button>
+    <a href="/"><button>Back to Home</button></a>
+</body>
+</html>
