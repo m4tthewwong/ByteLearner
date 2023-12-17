@@ -113,10 +113,21 @@ app.post("/view-set", async (req, res) => {
   for (const item in flashcards) {
     let word = flashcards[item].Word;
     let desc = flashcards[item].Definition;
+    let content = `<ul>`;
+    for (const item in flashcards){
+        let word = flashcards[item].Word;
+        let desc = flashcards[item].Definition;
 
     content += `<dt> ${word} </dt> <dd> ${desc} </dd>`;
   }
   content += "</dl>";
+        content += `<li><strong> ${word} </strong> <ul> <li> ${desc} </li> </ul></li><br>`
+
+        
+
+    }
+    content += '</ul>'
+    
 
   console.log(flashcards);
 
