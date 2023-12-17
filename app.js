@@ -22,6 +22,7 @@ const uri = `mongodb+srv://${userName}:${password}@cluster0.dcxpb1s.mongodb.net/
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
+let current = "";
 // Connect to MongoDB
 async function connectToMongo() {
   try {
@@ -110,6 +111,7 @@ app.post("/view-set", async (req, res) => {
   const propertyNames = Object.keys(collectionName);
   const collectionN = propertyNames[0];
 
+  current = collectionN;
   
   const flashcardsCollection = await db.collection(collectionN);
   const flashcardsCursor = await flashcardsCollection.find({});
@@ -222,6 +224,57 @@ app.post("/deleteSet", async (req, res) => {
         res.status(500).send("Error deleting collection");
     }
 });
+
+//inside of set
+
+app.post("/deleteDefinition", async (req, res) => {
+    try {
+        const db = await connectToMongo();
+
+        const definition = req.body.definition;
+        const name = req.body.collectionName;
+
+        const result = await db.collection(name).deleteOne({ Definition: definition });
+
+        if (result.deletedCount === 1) {
+            console.log("Definition deleted successfully");
+        } else {
+            console.log("Definition not found or not deleted");
+        }
+
+        res.redirect("/view-set");
+    } catch (error) {
+        console.error("Error deleting definition", error);
+        res.status(500).send("Error deleting definition");
+    }
+});
+
+app.get("/view-set", async (req, res) => {
+
+   
+    const collectionN = current;
+    const db = await connectToMongo();
+    console.log("yo yo yoyo" ,current);
+  
+    
+    const flashcardsCollection = await db.collection(collectionN);
+    const flashcardsCursor = await flashcardsCollection.find({});
+    const flashcards = await flashcardsCursor.toArray();
+  
+  
+   
+      let content = `<ul>`;
+      for (const item in flashcards){
+          let word = flashcards[item].Word;
+          let desc = flashcards[item].Definition;
+  
+          content += `<li><strong> ${word} </strong> <ul> <li> ${desc} </li> </ul></li><br>`
+      }
+      content += '</ul>'
+  
+  
+    res.render("view-set", { collectionName: collectionN, contents: content });
+  });
 
 
 

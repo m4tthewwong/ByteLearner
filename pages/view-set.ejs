@@ -11,5 +11,16 @@
   <a href="/study-sets">Back to sets </a>
     <h1> Contents for this set</h1>
     <%- contents %>
+
+  <div class="sameLine">
+
+    <form method="post" action="/deleteDefinition">
+      <input type="hidden" name="collectionName" value="<%- collectionName %>">
+      <label for="definition">add to exisiting set</label>
+      <input id="definition"name ="definition"  type="text" placeholder="Enter Definition">
+      <input type="submit"></input>
+    </form>
+
+  </div>
 </body>
 </html>
